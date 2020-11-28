@@ -6,40 +6,42 @@ BOOST_AUTO_TEST_CASE(test) {
 	//typedef std::vector<int> container;
 	typedef MyVector<int> container;
 
-	container vec;
-	BOOST_TEST(vec.size() == 0);
-	BOOST_TEST(vec.empty() == true);
-	vec.push_back(5);
-	vec.push_back(7);
-	BOOST_TEST(vec.size() == 2);
-	BOOST_TEST(vec[0] == 5);
-	BOOST_TEST(*(vec.begin()) == 5);
-	BOOST_TEST(*(vec.end() - 1) == 7);
+	{
+		container vec;
+		BOOST_TEST(vec.size() == 0);
+		BOOST_TEST(vec.empty() == true);
+		vec.push_back(5);
+		vec.push_back(7);
+		BOOST_TEST(vec.size() == 2);
+		BOOST_TEST(vec[0] == 5);
+		BOOST_TEST(*(vec.begin()) == 5);
+		BOOST_TEST(*(vec.end() - 1) == 7);
 
-	container vec2;
-	BOOST_TEST(vec2.size() == 0);
-	vec2.push_back(5);
-	vec2.push_back(7);
-	BOOST_TEST(vec == vec2);
-	BOOST_TEST(vec >= vec2);
-	vec2.push_back(71);
-	BOOST_TEST(vec2.size() == 3);
+		container vec2;
+		BOOST_TEST(vec2.size() == 0);
+		vec2.push_back(5);
+		vec2.push_back(7);
+		BOOST_TEST(vec == vec2);
+		BOOST_TEST(vec >= vec2);
+		vec2.push_back(71);
+		BOOST_TEST(vec2.size() == 3);
 
-	BOOST_TEST(vec != vec2);
-	BOOST_TEST(vec <= vec2);
-	BOOST_TEST(vec < vec2);
-	BOOST_TEST(vec2 > vec);
+		BOOST_TEST(vec != vec2);
+		BOOST_TEST(vec <= vec2);
+		BOOST_TEST(vec < vec2);
+		BOOST_TEST(vec2 > vec);
 
-	container vec3(3, 5);
-	BOOST_TEST(vec3[0] == vec[0]);
-	vec3.push_back(8);
-	BOOST_TEST(*(vec3.end() - 1) == 8);
+		container vec3(3, 5);
+		BOOST_TEST(vec3[0] == vec[0]);
+		vec3.push_back(8);
+		BOOST_TEST(*(vec3.end() - 1) == 8);
 
-	container vec4{ 15,16,17 };
-	BOOST_TEST(vec4.front() == 15);
-	BOOST_TEST(vec4.back() == 17);
-	BOOST_TEST(vec4[0] != vec3[0]);
-	BOOST_TEST(vec4 > vec2);
+		container vec4{ 15,16,17 };
+		BOOST_TEST(vec4.front() == 15);
+		BOOST_TEST(vec4.back() == 17);
+		BOOST_TEST(vec4[0] != vec3[0]);
+		BOOST_TEST(vec4 > vec2);
+	}
 
 	{
 		container vec5{ 3,3,3 };
@@ -83,8 +85,10 @@ BOOST_AUTO_TEST_CASE(test) {
 	}
 	{
 		container vec5{ 3,3 };
+		vec5.reserve(10);
 		container vec6 = vec5;//copy
 		BOOST_TEST(vec6.size() == 2);
+		BOOST_TEST(vec6.capacity() == 2);
 		BOOST_TEST(vec5 == vec6);
 	}
 
@@ -110,6 +114,8 @@ BOOST_AUTO_TEST_CASE(test) {
 	{
 		container vec5{ 3,4,5,6,7 };
 		vec5.erase(vec5.begin() + 1, vec5.begin() + 3);// 3 6 7
+		/*for (auto const& el : vec5)
+			std::cout << el << " ";*/
 		BOOST_TEST(vec5.size() == 3);
 	}
 	{
@@ -125,9 +131,9 @@ BOOST_AUTO_TEST_CASE(test) {
 	}
 	{
 		container vec4{ 3,4,5,6,7 };
-		container vec5;
-		vec5.insert(vec5.begin(), vec4.begin(), vec4.begin() + 3);//3 4 5
-		BOOST_TEST(vec5.size() == 3);
+		container vec5{ 10,11,12,13 };
+		vec5.insert(vec5.begin() + 1, vec4.begin(), vec4.begin() + 3);//3 4 5
+		BOOST_TEST(vec5.size() == 7);
 	}
 	{
 		container vec4{ 3,4,5,6,7 };
@@ -146,10 +152,14 @@ BOOST_AUTO_TEST_CASE(test) {
 	}
 	{
 		container vec4{ 3,4,5 };
+		BOOST_TEST(vec4.capacity() == 3);
 		vec4.resize(5, 8);// 3 4 5 8 8
+		BOOST_TEST(vec4.capacity() == 5);
 		vec4.resize(2);// 3 4
+		BOOST_TEST(vec4.capacity() == 5);
 		BOOST_TEST(vec4.size() == 2);
 		vec4.resize(4, 9);// 3 4 9 9
+		BOOST_TEST(vec4.capacity() == 5);
 		BOOST_TEST(vec4.size() == 4);
 		BOOST_TEST(vec4[2] == 9);
 		//std::cout << vec4 << "\n";

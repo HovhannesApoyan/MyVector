@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <initializer_list>
+
 template<class T>
 class MyVector {
 public:
@@ -21,10 +22,9 @@ public:
 	void erase(const T* p);
 	void erase(const T* first, const T* last);
 
-	void insert(const T* first, const T& value);
-	template<class U>
-	void insert(const T* first, const T& size_v, const U& value);
-	void insert(const T* pos, const T* first, const T* last);
+	void insert(const T* position, const T& val);
+	void insert(const T* position, const T& size_v, const T& value);
+	void insert(const T* position, const T* first, const T* last);
 
 	void resize(const int& n, const T& value = T());
 	void reserve(const int& n);
@@ -35,7 +35,8 @@ public:
 	const T& back()const;
 
 	int operator*()const;
-	T& operator[](const int& index)const;
+	T& operator[](const int& index);
+	const T& operator[](const int& index)const;
 	T* begin();
 	const T* begin()const;
 	const T* cbegin()const;
