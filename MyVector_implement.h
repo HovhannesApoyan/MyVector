@@ -18,9 +18,7 @@ inline MyVector<T>::MyVector(const int& count)
 		throw std::length_error("vector too long");
 
 	ptr_ = new T[capacity_];
-	for (int i = 0; i < size_; ++i) {
-		ptr_[i] = T();
-	}
+	std::fill(begin(), end(), T());
 }
 
 template<class T>
@@ -46,7 +44,7 @@ inline MyVector<T>::MyVector(const std::initializer_list<T>& elements)
 }
 
 template<class T>
-inline MyVector<T>::MyVector(const T* p1, const T* p2)
+inline MyVector<T>::MyVector(const_iterator p1, const_iterator p2)
 	:size_(p2 - p1),
 	capacity_(size_),
 	ptr_(new T[capacity_])
@@ -109,7 +107,7 @@ inline void MyVector<T>::pop_back()
 }
 
 template<class T>
-inline void MyVector<T>::erase(const T* p_other)
+inline void MyVector<T>::erase(const_iterator p_other)
 {
 	int index = p_other - begin();
 	std::copy(begin() + index + 1, end(), begin() + index);
@@ -117,7 +115,7 @@ inline void MyVector<T>::erase(const T* p_other)
 }
 
 template<class T>
-inline void MyVector<T>::erase(const T* first, const T* last)
+inline void MyVector<T>::erase(const_iterator first, const_iterator last)
 {
 	int interval = last - first;
 	int index = first - begin();
@@ -126,7 +124,7 @@ inline void MyVector<T>::erase(const T* first, const T* last)
 }
 
 template<class T>
-inline void MyVector<T>::insert(const T* position, const T& value)
+inline void MyVector<T>::insert(const_iterator position, const T& value)
 {
 	int index = position - begin();
 	resize(size_ + 1);
@@ -136,7 +134,7 @@ inline void MyVector<T>::insert(const T* position, const T& value)
 }
 
 template<class T>
-inline void MyVector<T>::insert(const T* position, const T& size_v, const T& value)
+inline void MyVector<T>::insert(const_iterator position, const T& size_v, const T& value)
 {
 	int index = position - begin();
 	resize(size_ + size_v);
@@ -146,7 +144,7 @@ inline void MyVector<T>::insert(const T* position, const T& size_v, const T& val
 }
 
 template<class T>
-inline void MyVector<T>::insert(const T* position, const T* first, const T* last)
+inline void MyVector<T>::insert(const_iterator position, const_iterator first, const_iterator last)
 {
 	int index = position - begin();
 	int s = last - first;
@@ -197,37 +195,37 @@ inline void MyVector<T>::swap(MyVector& v)
 }
 
 template<class T>
-inline T* MyVector<T>::begin()
+typename inline MyVector<T>::iterator MyVector<T>::begin()
 {
 	return ptr_;
 }
 
 template<class T>
-inline const T* MyVector<T>::begin() const
+typename inline MyVector<T>::const_iterator MyVector<T>::begin() const
 {
 	return ptr_;
 }
 
 template<class T>
-inline const T* MyVector<T>::cbegin() const
+typename inline MyVector<T>::const_iterator MyVector<T>::cbegin() const
 {
 	return ptr_;
 }
 
 template<class T>
-inline T* MyVector<T>::end()
+typename inline MyVector<T>::iterator MyVector<T>::end()
 {
 	return ptr_ + size_;
 }
 
 template<class T>
-inline const T* MyVector<T>::end() const
+typename inline MyVector<T>::const_iterator MyVector<T>::end() const
 {
 	return ptr_ + size_;
 }
 
 template<class T>
-inline const T* MyVector<T>::cend() const
+typename inline MyVector<T>::const_iterator MyVector<T>::cend() const
 {
 	return ptr_ + size_;
 }
@@ -305,7 +303,7 @@ bool operator>=(const MyVector<T>& v1, const MyVector<T>& v2) {
 
 template<class T>
 std::ostream& operator <<(std::ostream& out, const MyVector<T>& p) {
-	for (const T* p1 = p.begin(); p1 != p.end(); ++p1) {
+	for (auto p1 = p.begin(); p1 != p.end(); ++p1) {
 		out << *p1 << " ";
 	}
 	return out;

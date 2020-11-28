@@ -5,6 +5,9 @@
 template<class T>
 class MyVector {
 public:
+	typedef T* iterator;
+	typedef const T* const_iterator;
+public:
 	MyVector();
 	MyVector(const int& count);
 	MyVector(const int& count, const T& value);
@@ -19,12 +22,12 @@ public:
 	void push_back(const T& value);
 	void pop_back();
 
-	void erase(const T* p);
-	void erase(const T* first, const T* last);
+	void erase(const_iterator p);
+	void erase(const_iterator first, const_iterator last);
 
-	void insert(const T* position, const T& val);
-	void insert(const T* position, const T& size_v, const T& value);
-	void insert(const T* position, const T* first, const T* last);
+	void insert(const_iterator position, const T& val);
+	void insert(const_iterator position, const T& size_v, const T& value);
+	void insert(const_iterator position, const_iterator first, const_iterator last);
 
 	void resize(const int& n, const T& value = T());
 	void reserve(const int& n);
@@ -37,12 +40,12 @@ public:
 	int operator*()const;
 	T& operator[](const int& index);
 	const T& operator[](const int& index)const;
-	T* begin();
-	const T* begin()const;
-	const T* cbegin()const;
-	T* end();
-	const T* end()const;
-	const T* cend()const;
+	iterator begin();
+	const_iterator begin()const;
+	const_iterator cbegin()const;
+	iterator end();
+	const_iterator end()const;
+	const_iterator cend()const;
 
 	~MyVector() {
 		delete[]ptr_;
