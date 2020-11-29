@@ -107,20 +107,22 @@ inline void MyVector<T>::pop_back()
 }
 
 template<class T>
-inline void MyVector<T>::erase(const_iterator p_other)
+typename inline MyVector<T>::iterator MyVector<T>::erase(iterator p_other)
 {
 	int index = p_other - begin();
 	std::copy(begin() + index + 1, end(), begin() + index);
 	resize(size_ - 1);
+	return p_other;
 }
 
 template<class T>
-inline void MyVector<T>::erase(const_iterator first, const_iterator last)
+typename inline MyVector<T>::iterator MyVector<T>::erase(iterator first, iterator last)
 {
 	int interval = last - first;
 	int index = first - begin();
-	std::copy(begin() + index + interval, end(), begin() + index);
+	std::copy(first + interval, end(), first);
 	resize(size_ - interval);
+	return first;
 }
 
 template<class T>

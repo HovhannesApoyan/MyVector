@@ -22,8 +22,8 @@ public:
 	void push_back(const T& value);
 	void pop_back();
 
-	void erase(const_iterator p);
-	void erase(const_iterator first, const_iterator last);
+	iterator erase(iterator p);
+	iterator erase(iterator first, iterator last);
 
 	void insert(const_iterator position, const T& val);
 	void insert(const_iterator position, const T& size_v, const T& value);
